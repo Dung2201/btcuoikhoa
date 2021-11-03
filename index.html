@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Racingcar</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+
+<body>
+    <audio class="my_audio" autoplay>
+        <source src="NhacGameBoomDuaXe2-VA-5015213.mp3" type="audio/mpeg">
+    </audio>
+    <div id="road">
+        <div class="car">
+        </div>
+        <div id="e_road">
+
+        </div>
+    </div>
+    <div id='rule'>
+            <h2>GAME OVER!!!</h2>
+            <button onclick="restart()">RESTART</button>
+    </div>
+    <div id="score">
+    </div>
+
+
+
+
+    <script>
+        //Bắt tín hiệu di chuyển từ bàn phím
+        document.addEventListener('keydown',keydown);
+        document.addEventListener('keyup',keyup);
+        var car=document.getElementsByClassName("car");
+        var div = document.getElementById("road");
+        var road = div.getBoundingClientRect();
+        var gamestart=true;
+        var score=0;
+        var eroad=document.getElementById('e_road');
+        for(var i=0;i<5;i++){
+            var line =document.createElement('div');
+            line.classList.add("lines");
+            line.y=(150*i);
+            line.style.top=line.y+"px";
+            div.appendChild(line);
+        }
+        function create_enemy(){
+            for(var i=0;i<3;i++){
+            var enemy =document.createElement('div');
+            enemy.classList.add("enemy_car");
+            // enemy.style.background='silver';
+            enemy.y=(-300*(i +1));
+            enemy.style.top=enemy.y+"px";
+            enemy.style.left=Math.floor(Math.random()*200)+"px";
+            eroad.appendChild(enemy);
+        }
+        }
+       
+        //Control Car
+        var keys={
+            ArrowUp:false,ArrowDown:false,ArrowLeft:false,ArrowRight:false
+        }
+        function keydown(i){
+            // console.log(i.key);
+            keys[i.key]=true;
+        }
+        function keyup(j){
+            // console.log(j.key);
+            keys[j.key]=false;
+        }
+        function start(){
+            // window.requestAnimationFrame()
+            movelines();
+            movecar(car[0]);
+            var y=car[0].offsetTop;
+            var x=car[0].offsetLeft;
+            if(keys.ArrowUp && y>(road.top+70 )){
+                y-=5;
+            }
+            if(!keys.ArrowUp && y<(road.bottom-70)){
+                y+=5
+            }
+            if(keys.ArrowLeft && x>0){
+                x-=5;
+            }
+            if(keys.ArrowRight && x<(road.width-50)){
+                x+=5;
+            }
+            if(keys.ArrowDown && y<(road.bottom-70)){
+                y+=5;
+            }
+            car[0].style.left=x+"px";
+            car[0].style.top=y+"px";
+            if(gamestart){
+                score++;
+                document.getElementById('score').innerHTML=score;
+                window.requestAnimationFrame(start);
+               
+
+            }
+            
+            // console.log(car[0].offsetTop);
+            
+
+        }
+        //Restart game 
+        function restart(){
+                var replay=document.getElementById('rule');
+                var e_cars=document.getElementsByClassName('enemy_car');
+                replay.style.display='none';
+                gamestart=true;
+                for(var i=0;i<e_cars.length;i++){
+                    eroad.removeChild(e_cars[i]);
+                }
+                car[0].style.top="";
+                car[0].style.left="";
+                score=0;
+                document.getElementsByClassName('board')[0].remove();
+                setTimeout(() => {
+                    create_enemy();
+                    start();
+                }, 500);
+               
+                
+            }
+        function movelines(){
+            var lines=document.getElementsByClassName('lines');
+            for(var i=0;i<5;i++){
+                if(lines[i].y>=700){
+                    lines[i].y-=750;
+                }
+                lines[i].y+=5;
+                lines[i].style.top=lines[i].y+"px";
+            }
+        }
+        function movecar(car){
+            var lines=document.getElementsByClassName('enemy_car');
+            for(var i=0;i<3;i++){
+                if(gameover(car,lines[i])){
+                    var replay=document.getElementById('rule');
+                    replay.style.display='flex';
+                    var score_board=document.createElement('div');
+                    score_board.classList.add('board');
+                    score_board.innerHTML='<h1>YOUR SCORE IS '+score+'</h1>';
+                    replay.appendChild(score_board);
+                    // alert('gameover');
+                    // console.log("gameover");
+                    gamestart=false;
+                }
+                if(lines[i].y>650){
+                    lines[i].y-=750;
+                    lines[i].style.left=Math.floor(Math.random()*600)+"px";
+                }
+                lines[i].y+=5;
+                lines[i].style.top=lines[i].y+"px";
+            }
+        
+        }
+        function gameover(mycar,enemycar){
+            var a=mycar.getBoundingClientRect();
+            var b=enemycar.getBoundingClientRect();
+            if(a.bottom<b.top ||a.top>b.bottom ||a.right<b.left || a.left>b.right){
+                return false;
+            }
+            else{
+                return true;
+            }
+
+        }
+        create_enemy();
+        start();
+        
+
+    </script>
+    
+</body>
+</html>

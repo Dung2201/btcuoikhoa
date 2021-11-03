@@ -1,0 +1,80 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.car , .enemy_car{
+    width: 50px;
+    height: 70px;
+    /* background-color: blue; */
+    position: absolute;
+    /* left: 100px; */
+    bottom: 100px;
+    background-image: url('car2.jpg');
+    background-size: cover; /*120px 100px*/
+    background-position: center;
+    background-repeat: no-repeat;
+    border: none;
+    z-index: 4;
+
+}
+body{
+    overflow: hidden;
+    background-image: url("https://wallpaperaccess.com/full/869.jpg");
+}
+.enemy_car{
+    background-image: url('car6.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: none;
+}
+#road{
+    background-color:whitesmoke;
+    width: 300px;
+    height: 100vh;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+}
+.lines{
+    width: 10px;
+    height: 100px;
+    background-color:rgb(255, 145, 0);
+    position: absolute;
+    left:150px;
+}
+#rule{
+    width: 80vw;
+    height: 80vh;
+    background-color: rgb(223, 189, 189);
+    position: fixed;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+#rule button{
+    background-color: blue;
+    border-radius: 10px;
+    color: white;
+    border: none;
+    outline: none;
+    padding: 20px;
+    margin: 20px 0px;
+    cursor: pointer;
+}
+#score{
+    width: 10vw;
+    height: 5vh;
+    background-color: rgb(8, 8, 8);
+    position: fixed;
+    left: 2%;
+    top:2%;
+    color:white;
+                
+}
